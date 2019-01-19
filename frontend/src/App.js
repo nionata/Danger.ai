@@ -8,7 +8,6 @@ import Dashboard from '@material-ui/icons/Dashboard';
 import List from '@material-ui/icons/List';
 import Button from '@material-ui/core/Button';
 import Feed from './Feed.js';
-import FormData from 'form-data';
 import { withStyles} from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -32,7 +31,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {names: [], selectedFile: ""}
+    this.state = {names: [], selectedFile: "", data: [[], [], []]}
     this.loadVideos = this.loadVideos.bind(this)
     this.handleselectedFile = this.handleselectedFile.bind(this)
     this.submitFile = this.submitFile.bind(this)
@@ -46,7 +45,7 @@ class App extends Component {
     this.setState({names: []})
     axios
       .get('https://www.googleapis.com/storage/v1/b/swamphacks2019videos/o')
-      .then(response => response.data.items.map(data => this.setState(prevState => ({
+      .then(response => response.data.items.length > 0 && response.data.items.map(data => this.setState(prevState => ({
         names: [...prevState.names, data.name]})
       )))
   }
@@ -61,16 +60,25 @@ class App extends Component {
 
   submitFile() {
     const { selectedFile } = this.state
-
     const URL = 'https://www.googleapis.com/upload/storage/v1/b/swamphacks2019videos/o?uploadType=media&name=' + selectedFile.name
-    const data = new FormData();
-    data.append('file', selectedFile);
-    data.append('filename', selectedFile.name);
+    const header = {
+      header: {
+        'Content-Type': 'video/mp4'
+      }
+    }
 
     axios
-      .post(URL, data, {header: {'Content-Type': 'video/mp4'}})
+      .post(URL, selectedFile, header)
       .catch(err => console.log(err))
-      .then(this.loadVideos())
+  }
+
+  partTheSea(num) {
+    if(num == 1)
+      return this.state.names.slice(0, 4)
+    if(num == 2)
+      return this.state.names.slice(4, 8)
+    if(num == 3)
+      return this.state.names.slice(8, 12)
   }
 
   render() {
@@ -88,7 +96,13 @@ class App extends Component {
           <div className={classes.appBarSpacer} />
           <h2 color="black">Video Feeds</h2>
           <Grid container spacing={24} className={classes.container}>
-              {this.state.names.map((name, i) => <Feed key={i} name={name}/>)}
+              {this.partTheSea(1).map((name, i) => <Feed key={i} name={name}/>)}
+          </Grid>
+          <Grid container spacing={24} className={classes.container}>
+              {this.partTheSea(2).map((name, i) => <Feed key={i} name={name}/>)}
+          </Grid>
+          <Grid container spacing={24} className={classes.container}>
+              {this.partTheSea(3).map((name, i) => <Feed key={i} name={name}/>)}
           </Grid>
           <div className={classes.appBarSpacer} />
           <label>Upload a new file</label>

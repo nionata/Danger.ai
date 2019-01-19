@@ -8,7 +8,8 @@
     "form-data": "^2.3.3",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-easy-chart": "^1.0.0"
   },
   "devDependencies": {
     "react-scripts": "2.1.3"
