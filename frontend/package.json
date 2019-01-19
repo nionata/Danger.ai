@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
+    "@material-ui/icons": "^3.0.2",
+    "form-data": "^2.3.3",
+    "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   },
