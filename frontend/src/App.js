@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Dashboard from '@material-ui/icons/Dashboard';
 import List from '@material-ui/icons/List';
-import Button from '@material-ui/core/Button';
-import Feed from './Feed.js';
 import {withStyles} from '@material-ui/core/styles';
+import Feed from './Feed.js';
+import VideoPicker from './VideoPicker.js';
 
 const styles = theme => ({
   root: {
@@ -132,12 +132,7 @@ class App extends Component {
               {this.partTheSea(3).map((video, i) => <Feed key={i} video={video}/>)}
           </Grid>
           <div className={classes.appBarSpacer} />
-          <label>Upload a new file</label>
-          <br/>
-          <input type="file" id="video" accept="video/*" onChange={this.handleselectedFile}/>
-          <Button color="primary" onClick={this.submitFile}>
-            Submit
-          </Button>
+          <VideoPicker handleselectedFile={this.handleselectedFile} />
         </div>
       </div>
     );
