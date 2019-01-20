@@ -6,11 +6,11 @@ class Dashboard extends Component {
   partTheSea(num) {
     const { videos } = this.props
     if(num === 1)
-      return videos.slice(0, 4)
+      return videos.slice(0, 3)
     if(num === 2)
-      return videos.slice(4, 8)
+      return videos.slice(3, 6)
     if(num === 3)
-      return videos.slice(8, 12)
+      return videos.slice(6, 9)
   }
 
   render() {
