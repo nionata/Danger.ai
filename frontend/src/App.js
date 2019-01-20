@@ -8,7 +8,7 @@ import Dashboard from '@material-ui/icons/Dashboard';
 import List from '@material-ui/icons/List';
 import Button from '@material-ui/core/Button';
 import Feed from './Feed.js';
-import { withStyles} from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
@@ -25,13 +25,27 @@ const styles = theme => ({
     backgroundColor: '#eceff1'
   },
   appBarSpacer: theme.mixins.toolbar,
+  title: {
+    display: 'block'
+  },
+  titleLeft: {
+    float: 'left'
+  },
+  titleRight: {
+    float: 'right',
+    margin: 10
+  },
+  logo: {
+    height: 50,
+    marginRight: 10
+  }
 })
 
 class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {names: [], selectedFile: "", data: [[], [], []]}
+    this.state = {names: [], selectedFile: ""}
     this.loadVideos = this.loadVideos.bind(this)
     this.handleselectedFile = this.handleselectedFile.bind(this)
     this.submitFile = this.submitFile.bind(this)
@@ -48,6 +62,9 @@ class App extends Component {
       .then(response => response.data.items.length > 0 && response.data.items.map(data => this.setState(prevState => ({
         names: [...prevState.names, data.name]})
       )))
+    axios
+      .get('https://us-central1-arched-glow-229104.cloudfunctions.net/dangerScores')
+      .then(response => this.setState({videos: response.data}))
   }
 
   handleselectedFile(event) {
@@ -73,36 +90,46 @@ class App extends Component {
   }
 
   partTheSea(num) {
-    if(num == 1)
+    if(num === 1)
       return this.state.names.slice(0, 4)
-    if(num == 2)
+    if(num === 2)
       return this.state.names.slice(4, 8)
-    if(num == 3)
+    if(num === 3)
       return this.state.names.slice(8, 12)
   }
 
   render() {
+    console.log(this.state);
     const { classes } = this.props
     return (
       <div className={classes.root}>
         <AppBar className={classes.appbar}>
           <Toolbar>
-            <h1>Dashboard</h1>
-            <IconButton>
-            </IconButton>
+            <img src="logo.ico" alt="logo" className={classes.logo} />
+            <h1>Danger.ai</h1>
           </Toolbar>
         </AppBar>
         <div className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <h2 color="black">Video Feeds</h2>
+          <div className={classes.title}>
+            <h2 color="black" className={classes.titleLeft}>Video Feeds</h2>
+            <div className={classes.titleRight}>
+              <IconButton>
+                <Dashboard/>
+              </IconButton>
+              <IconButton>
+                <List/>
+              </IconButton>
+            </div>
+          </div>
           <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(1).map((name, i) => <Feed key={i} name={name}/>)}
+              {this.partTheSea(1).map((video, i) => <Feed key={i} video={video}/>)}
           </Grid>
           <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(2).map((name, i) => <Feed key={i} name={name}/>)}
+              {this.partTheSea(2).map((video, i) => <Feed key={i} video={video}/>)}
           </Grid>
           <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(3).map((name, i) => <Feed key={i} name={name}/>)}
+              {this.partTheSea(3).map((video, i) => <Feed key={i} video={video}/>)}
           </Grid>
           <div className={classes.appBarSpacer} />
           <label>Upload a new file</label>
