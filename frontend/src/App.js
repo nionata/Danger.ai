@@ -100,6 +100,7 @@ class App extends Component {
 
   render() {
     console.log(this.state);
+    //<VideoPicker handleselectedFile={this.handleselectedFile} submitFile={this.submitFile} />
     const { classes } = this.props
     return (
       <div className={classes.root}>
@@ -124,7 +125,6 @@ class App extends Component {
           </div>
           {this.renderView(classes)}
           <div className={classes.appBarSpacer} />
-          <VideoPicker handleselectedFile={this.handleselectedFile} submitFile={this.submitFile} />
         </div>
       </div>
     );

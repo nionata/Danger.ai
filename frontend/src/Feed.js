@@ -28,7 +28,11 @@ class Feed extends Component {
         }
 
         this.setState({data})
-        i++
+        if(i === 72) {
+          i = 0
+        } else {
+          i++
+        }
       }.bind(this), 500)
   }
 
