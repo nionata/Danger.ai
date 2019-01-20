@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Dashboard from '@material-ui/icons/Dashboard';
 import List from '@material-ui/icons/List';
@@ -49,7 +48,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {names: [], selectedFile: "", view: "dash"}
+    this.state = {selectedFile: "", view: "dash", videos: []}
     this.loadVideos = this.loadVideos.bind(this)
     this.handleselectedFile = this.handleselectedFile.bind(this)
     this.submitFile = this.submitFile.bind(this)
@@ -60,12 +59,7 @@ class App extends Component {
   }
 
   loadVideos() {
-    this.setState({names: []})
-    axios
-      .get('https://www.googleapis.com/storage/v1/b/swamphacks2019videos/o')
-      .then(response => response.data.items.length > 0 && response.data.items.map(data => this.setState(prevState => ({
-        names: [...prevState.names, data.name]})
-      )))
+    this.setState({videos: []})
     axios
       .get('https://us-central1-arched-glow-229104.cloudfunctions.net/dangerScores')
       .then(response => this.setState({videos: response.data}))
@@ -98,13 +92,14 @@ class App extends Component {
 
   renderView(classes) {
     if(this.state.view === "dash") {
-      return <DashboardView names={this.state.names} classes={classes}/>
+      return <DashboardView videos={this.state.videos} classes={classes}/>
     } else {
-      return <ListView names={this.state.names} classes={classes}/>
+      return <ListView videos={this.state.videos} classes={classes}/>
     }
   }
 
   render() {
+    console.log(this.state);
     const { classes } = this.props
     return (
       <div className={classes.root}>

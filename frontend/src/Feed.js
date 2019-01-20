@@ -15,11 +15,15 @@ class Feed extends Component {
       var i = 0
       setInterval(function() {
         var { data } = this.state
+        const { video } = this.props
 
-        for(var arr in data) {
-          data[arr].push({x: i, y: Math.random()})
-          if(data[arr].length > 20) {
-            data[arr].shift()
+        data[0].push({x: i, y: video.gcp[i]})
+        data[1].push({x: i, y: video.pixel[i]})
+        data[2].push({x: i, y: video.pose[i]})
+
+        for(var j = 0; j < 3; j++) {
+          if(data[j].length > 20) {
+            data[j].shift()
           }
         }
 
@@ -42,11 +46,11 @@ class Feed extends Component {
       <Grid item xs>
         <Card>
           <CardContent>
-            {video}
+            {video.name}
             <Grid container spacing={24}>
               <Grid item xs>
                 <video width="100%" autoPlay loop muted>
-                  <source src={'https://storage.googleapis.com/swamphacks2019videos/' + video} type="video/mp4"/>
+                  <source src={'https://storage.googleapis.com/swamphacks2019videos/' + video.name} type="video/mp4"/>
                 </video>
               </Grid>
               <Grid item xs>

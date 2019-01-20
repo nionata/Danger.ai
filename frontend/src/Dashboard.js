@@ -4,17 +4,17 @@ import Feed from './Feed.js';
 
 class Dashboard extends Component {
   partTheSea(num) {
-    const { names } = this.props
+    const { videos } = this.props
     if(num === 1)
-      return names.slice(0, 4)
+      return videos.slice(0, 4)
     if(num === 2)
-      return names.slice(4, 8)
+      return videos.slice(4, 8)
     if(num === 3)
-      return names.slice(8, 12)
+      return videos.slice(8, 12)
   }
 
   render() {
-    const { classes } = this.props
+    //const { classes } = this.props
     return (
       <div>
         <Grid container spacing={24}>

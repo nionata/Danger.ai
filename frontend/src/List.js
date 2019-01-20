@@ -4,7 +4,7 @@ import Feed from './Feed.js';
 
 class List extends Component {
   renderRow(video, i) {
-    const { classes } = this.props
+    //const { classes } = this.props
     return (
       <Grid container spacing={24}>
         <Feed key={i} video={video} type="list"/>
@@ -13,10 +13,10 @@ class List extends Component {
   }
 
   render() {
-    const { names } = this.props
+    const { videos } = this.props
     return (
       <div>
-        {names.map((video, i) => this.renderRow(video, i))}
+        {videos.map((video, i) => this.renderRow(video, i))}
       </div>
     )
   }

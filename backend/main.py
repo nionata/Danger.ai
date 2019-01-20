@@ -14,8 +14,6 @@ def getDangerScores(request):
 		resp.status_code = 200
 		return resp
 	elif request.method == 'POST':
-		print(request)
-		print(request.json)
 		request_json = request.json
 		_name = request_json['name']
 		_gcp = request_json['gcp']
@@ -33,9 +31,9 @@ def getDangerScores(request):
 			resp = flask.jsonify('Video added successfully')
 			resp.headers.add('Access-Control-Allow-Origin', '*')
 			resp.status_code = 200
-			return resp
-	else:
-		return not_found(request)
+				return resp
+		else:
+			return not_found(request)
 
 def not_found(request):
 	message = {
@@ -45,3 +43,5 @@ def not_found(request):
 	resp = flask.jsonify(message)
 	resp.status_code = 404
 	return resp
+
+
