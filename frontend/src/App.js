@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Dashboard from '@material-ui/icons/Dashboard';
 import List from '@material-ui/icons/List';
 import {withStyles} from '@material-ui/core/styles';
-import Feed from './Feed.js';
 import VideoPicker from './VideoPicker.js';
+import DashboardView from './Dashboard.js';
+import ListView from './List.js';
 
 const styles = theme => ({
   root: {
@@ -38,6 +39,9 @@ const styles = theme => ({
   logo: {
     height: 50,
     marginRight: 10
+  },
+  listFeed: {
+    height: '50vh'
   }
 })
 
@@ -45,7 +49,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {names: [], selectedFile: ""}
+    this.state = {names: [], selectedFile: "", view: "dash"}
     this.loadVideos = this.loadVideos.bind(this)
     this.handleselectedFile = this.handleselectedFile.bind(this)
     this.submitFile = this.submitFile.bind(this)
@@ -75,7 +79,9 @@ class App extends Component {
     })
   }
 
-  submitFile() {
+  submitFile(event) {
+    event.preventDefault()
+
     const { selectedFile } = this.state
     const URL = 'https://www.googleapis.com/upload/storage/v1/b/swamphacks2019videos/o?uploadType=media&name=' + selectedFile.name
     const header = {
@@ -87,19 +93,18 @@ class App extends Component {
     axios
       .post(URL, selectedFile, header)
       .catch(err => console.log(err))
+      .then(this.setState({selectedFile: ""}))
   }
 
-  partTheSea(num) {
-    if(num === 1)
-      return this.state.names.slice(0, 4)
-    if(num === 2)
-      return this.state.names.slice(4, 8)
-    if(num === 3)
-      return this.state.names.slice(8, 12)
+  renderView(classes) {
+    if(this.state.view === "dash") {
+      return <DashboardView names={this.state.names} classes={classes}/>
+    } else {
+      return <ListView names={this.state.names} classes={classes}/>
+    }
   }
 
   render() {
-    console.log(this.state);
     const { classes } = this.props
     return (
       <div className={classes.root}>
@@ -114,25 +119,17 @@ class App extends Component {
           <div className={classes.title}>
             <h2 color="black" className={classes.titleLeft}>Video Feeds</h2>
             <div className={classes.titleRight}>
-              <IconButton>
+              <IconButton onClick={() => this.setState({view: "dash"})}>
                 <Dashboard/>
               </IconButton>
-              <IconButton>
+              <IconButton onClick={() => this.setState({view: "list"})}>
                 <List/>
               </IconButton>
             </div>
           </div>
-          <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(1).map((video, i) => <Feed key={i} video={video}/>)}
-          </Grid>
-          <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(2).map((video, i) => <Feed key={i} video={video}/>)}
-          </Grid>
-          <Grid container spacing={24} className={classes.container}>
-              {this.partTheSea(3).map((video, i) => <Feed key={i} video={video}/>)}
-          </Grid>
+          {this.renderView(classes)}
           <div className={classes.appBarSpacer} />
-          <VideoPicker handleselectedFile={this.handleselectedFile} />
+          <VideoPicker handleselectedFile={this.handleselectedFile} submitFile={this.submitFile} />
         </div>
       </div>
     );

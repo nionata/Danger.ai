@@ -10,6 +10,7 @@ class Feed extends Component {
 
     this.state = {data: [[],[],[]]}
   }
+
   componentDidMount() {
       var i = 0
       setInterval(function() {
@@ -26,25 +27,39 @@ class Feed extends Component {
         i++
       }.bind(this), 500)
   }
+
   render() {
-    const { video } = this.props
+    const { video, type } = this.props
+    var height, width
+    if(type === "dash") {
+      height = 25
+      width = 418
+    } else {
+      height = 360
+      width = 700
+    }
     return (
       <Grid item xs>
         <Card>
           <CardContent>
             {video}
-            <video width="100%" autoPlay loop muted>
-              <source src={'https://storage.googleapis.com/swamphacks2019videos/' + video} type="video/mp4"/>
-            </video>
-            <div>
-            <AreaChart
-              height={50}
-              width={418}
-              areaColors={['red', 'green', 'blue']}
-              interpolate={'cardinal'}
-              data={this.state.data}
-              />
-            </div>
+            <Grid container spacing={24}>
+              <Grid item xs>
+                <video width="100%" autoPlay loop muted>
+                  <source src={'https://storage.googleapis.com/swamphacks2019videos/' + video} type="video/mp4"/>
+                </video>
+              </Grid>
+              <Grid item xs>
+                <AreaChart
+                  yDomainRange={[0, 1]}
+                  height={height}
+                  width={width}
+                  areaColors={['red', 'green', 'blue']}
+                  interpolate={'cardinal'}
+                  data={this.state.data}
+                />
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Grid>
