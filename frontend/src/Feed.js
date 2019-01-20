@@ -17,9 +17,11 @@ class Feed extends Component {
         var { data } = this.state
         const { video } = this.props
 
-        data[0].push({x: i, y: video.gcp[i]})
-        data[1].push({x: i, y: video.pixel[i]})
-        data[2].push({x: i, y: video.pose[i]})
+        console.log(video.gcp.length);
+
+        data[0].push({x: i, y: video.gcp[i%72]})
+        data[1].push({x: i, y: video.pixel[i%72]})
+        data[2].push({x: i, y: video.pose[i%72]})
 
         for(var j = 0; j < 3; j++) {
           if(data[j].length > 20) {
@@ -28,11 +30,7 @@ class Feed extends Component {
         }
 
         this.setState({data})
-        if(i === 72) {
-          i = 0
-        } else {
-          i++
-        }
+        i++
       }.bind(this), 500)
   }
 
