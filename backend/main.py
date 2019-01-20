@@ -26,17 +26,20 @@ def getDangerScores(request):
 				'pose': _pose,
 				'pixel': _pixel
 			}
-
+			
 			firestore.Client().collection('videos').add(video)
-		else:
-			return not_found
+				resp = flask.jsonify('Video added successfully')
+				resp.status_code = 200
+					return resp
+						else:
+return not_found(request)
 
-def not_found(error=None):
+def not_found(request):
 	message = {
 		'status': 404,
 		'message': 'Not Found: ' + request.url,
 	}
-	resp = jsonify(message)
+	resp = flask.jsonify(message)
 	resp.status_code = 404
 	return resp
 
