@@ -1,5 +1,7 @@
-# Danger.ai
+# Danger.ai 
 A video monitoring system powered by deep learning
+
+<img src="https://raw.githubusercontent.com/nionata/Danger.ai/master/media/dash.png">
 
 ## Inspiration
 37% of active shootings last less than 5 minutes, and the rest last less than 15 minutes. With police response times ranging from 5-15 minutes, every minute is crucial. We created a video surveillance system to help decrease this response time by cutting out the lag due to human interaction. With over 285 million surveillance cameras, this software could help immensely by alerting the proper authorities about large problems the second they occur. 
